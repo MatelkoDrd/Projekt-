@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
@@ -31,7 +33,8 @@ class UserManager(BaseUserManager):
             """Create and save a SuperUser with the given email and password."""
             extra_fields.setdefault('is_staff', True)
             extra_fields.setdefault('is_superuser', True)
-            extra_fields.setdefault('email_is_verified', True)
+            extra_fields.setdefault('date_of_birth', date.today())
+
             if extra_fields.get('is_staff') is not True:
                 raise ValueError('Superuser must have is_staff=True.')
             if extra_fields.get('is_superuser') is not True:

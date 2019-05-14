@@ -4,8 +4,9 @@ from user.models import User
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'email']
-    # date_hierarchy = ['date_sent']
+    list_display = ['user', 'first_name', 'last_name', 'password']
+    list_filter = ['user', 'first_name', 'last_name', 'password']
+    search_fields = ['user']
 
 #
 # admin.site.register(User, UserAdmin)
@@ -22,3 +23,10 @@ class UserAdmin(admin.ModelAdmin):
 #     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 #
 #     objects = UserManager()
+# class CarAdmin(admin.ModelAdmin):
+#     list_display = ['segment', 'brand', 'model', 'fuel']
+#     list_filter = ['segment', 'brand', 'model', 'fuel']
+#     search_fields = ['segment', 'brand', 'model']
+#
+#
+# admin.site.register(Car, CarAdmin)
