@@ -1,23 +1,18 @@
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.template.response import TemplateResponse
 from django.views import View
 
-from core.forms import LoginForm, LogoutForm
+from core.forms import LoginForm, LogoutForm, AddUserForm
+from user.models import User
 
 
 class BaseView(View):
 
     def get(self, request):
-#         html = """
-# """
-#         class_list = []
-#         for school_class in SCHOOL_CLASS:
-#             class_list.append("<li><a href='/class/{}'>{}</a></li>".format(school_class[0], school_class[1]))
-#         classes_part = "".join(class_list)
-#         return HttpResponse(html.format(classes_part))
         return TemplateResponse(request, 'base.html', {})
 
 
@@ -56,3 +51,18 @@ class LogoutView(View):
 
     def post(self,request):
         return redirect('/')
+
+
+class AddUserView(View):
+    def get(self, request):
+        form = AddUserForm()
+        return render(request, 'add_user.html', {'form': form})
+
+    def post(self, request):
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            del form.cleaned_data['password2']
+            new_user = User.objects.create_user(**form.cleaned_data)
+            return HttpResponse("Witaj: {}".format(new_user.first_name))
+        else:
+            return render(request, 'add_user.html', {'form': form})
