@@ -1,19 +1,37 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.template.response import TemplateResponse
 from django.views import View
 
+from car.models import SEGMENT_CHOICES, Car
 from core.forms import LoginForm, LogoutForm, AddUserForm
 from user.models import User
 
 
 class BaseView(View):
-
     def get(self, request):
-        return TemplateResponse(request, 'base.html', {})
+        return TemplateResponse(request, 'segments_base.html', {'segments': SEGMENT_CHOICES})
+
+# students = Student.objects.filter(school_class=school_class)
+#         return render(request, "class.html", {"students": students,
+#                                               "class_name": SCHOOL_CLASS[int(school_class)-1][1]})
+#
+#
+
+
+class SegmentView(View):
+    def get(self, request, segment):
+        cars = Car.objects.filter(segment=segment)
+        return render(request, 'segments.html', {'cars': cars})
+
+
+class CarView(View):
+    def get(self, request, car):
+        description = Car.objects.get(id=car)
+        return render(request, 'car_view.html', {'description': description})
 
 
 class LoginView(View):

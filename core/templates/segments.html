@@ -1,0 +1,21 @@
+{%  extends 'base.html' %}
+
+{% block container %}
+<h2>Lista samochodów z danego segmentu </h2>
+    {{ cars }}
+<ol>
+    {% for car_model in cars %}
+        <li>
+            <a href='/car/{{ car_model.id }}'>
+{#                {{ class_name }}</a>#}
+        {{ car_model }}
+{#        {{ car_model }}#}
+            </a>
+        </li>
+    {%  endfor %}
+</ol>
+
+{% endblock %}
+
+
+

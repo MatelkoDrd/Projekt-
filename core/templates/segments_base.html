@@ -1,0 +1,20 @@
+{%  extends 'base.html' %}
+
+{% block container %}
+<h2>Wybierz segment, który Cię interesuje</h2>
+
+    <hr>
+<ul>
+    {% for segment_id, segment_name in segments %}
+        <li>
+            <a href='/segment/{{ segment_id}}'>
+                {{ segment_name }}</a>
+{#        {{ segment_name }}#}
+        </li>
+    {%  endfor %}
+</ul>
+
+{% endblock %}
+
+
+

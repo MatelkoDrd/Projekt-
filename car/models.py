@@ -26,3 +26,7 @@ class Car(models.Model):
     model = models.CharField(max_length=32)
     fuel = models.IntegerField(choices=FUEL_CHOICES)
     quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.model
+

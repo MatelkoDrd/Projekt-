@@ -17,12 +17,15 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
-from core.views import BaseView, LoginView, LogoutView, AddUserView
+from core.views import BaseView, LoginView, LogoutView, AddUserView, SegmentView, CarView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', BaseView.as_view()),
     url('login/', LoginView.as_view()),
     url('logout/', LogoutView.as_view()),
-    url('adduser/', AddUserView.as_view())
+    url('adduser/', AddUserView.as_view()),
+    url('segment/(?P<segment>[1-5])/', SegmentView.as_view()),
+    url('car/(?P<car>(\d)+)/', CarView.as_view()),
+    path('', BaseView.as_view()),
+    # url('(?P<car>[1-99])/'
 ]
