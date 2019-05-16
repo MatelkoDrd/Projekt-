@@ -5,20 +5,28 @@
 
     <h2>{{ description.brand }} {{ description.model }}</h2>
 
-        <form action="{{ action }}" method="post">
-
-            {% csrf_token %}
-            <input type="hidden" name = "car_id" value="{{ description.id }}">
-            {{ form.as_p }}
-
-            <button type="submit" class="btn btn-primary btn-lg">Rezerwuję</button>
-            <p id="price"></p>
-        </form>
-        {{ message }}
 
 
-    <script
-    src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+            <form action="{{ action }}" method="post">
+
+                {% csrf_token %}
+                <input type="hidden" name = "car_id" value="{{ description.id }}">
+                {{ form.as_p }}
+
+                <span>Kwota do zapłaty wynosi: </span> <span id="price"></span> <span> zł</span>
+
+                <div>
+                    <button type="submit" class="btn btn-primary btn-lg">Rezerwuję</button>
+                </div>
+
+                <p id="price"></p>
+            </form>
+
+            {{ message }}
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
     <script>
 
     $('#id_start_date, #id_end_date').change(function(){
@@ -29,7 +37,8 @@
             url: url,
             data: {
                 'start_date': start_date,
-                'end_date': end_date
+                'end_date': end_date,
+                'segment': {{ description.segment }}
             }
         }).done(function(data) {
             console.log(12);

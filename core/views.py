@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, request
@@ -9,6 +11,7 @@ from django.views import View
 
 from car.models import SEGMENT_CHOICES, Car
 from core.forms import LoginForm, LogoutForm, AddUserForm, ReservationForm
+from core.functions import calculate_price
 from reservation.models import Reservation
 from user.models import User
 
@@ -102,6 +105,8 @@ class CarView(View):
             data2 = form.cleaned_data['end_date']
             reservation = Reservation.objects.create(user=request.user, car=description,
                                                      start_date=data1, end_date=data2)
+            # is_available = reservation.check_dates
+            
             if data1 > data2:
                 return render(request, 'car_view.html', {'description': description, 'form': form,
                                                          'message': 'Data zakończenia wynajmu jest wcześniejsza niż rozpoczęcia!'})
@@ -116,29 +121,19 @@ def load_dates(request):
 
     start_date_id = request.GET.get('start_date')
     end_date_id = request.GET.get('end_date')
+    segment = request.GET.get('segment')
     date_form = ReservationForm(request.GET)
     if date_form.is_valid():
         start_date = date_form.cleaned_data['start_date']
         end_date = date_form.cleaned_data['end_date']
-        dates = Reservation.objects.filter(start_date=start_date_id, end_date=end_date_id).order_by('name')
-        return HttpResponse('test')
-    return HttpResponse('test')
+        # dates = Reservation.objects.filter(start_date=start_date_id, end_date=end_date_id).order_by('name')
+        price = calculate_price(segment, end_date, start_date, 79)
+        return HttpResponse(str(price))
+    return HttpResponse('')
 
 
 class SuccessView(View):
     def get(self, request):
         return render(request, 'success.html', {})
 
-
-# def calculate_price(a, x, y, price):
-#     if a:
-#         return (x - y) * price
-#     elif a+1:
-#         return ((x - y) * price) * 1.2
-#     elif a+2:
-#         return ((x - y) * price) * 1.4
-#     elif a+3:
-#         return ((x - y) * price) * 1.6
-#     else:
-#         return ((x - y) * price) * 2
 
