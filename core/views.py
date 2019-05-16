@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, request
 from django.shortcuts import render, redirect
@@ -88,7 +89,9 @@ class AddUserView(View):
             return render(request, 'add_user.html', {'form': form})
 
 
-class CarView(View):
+class CarView(LoginRequiredMixin, View):
+    login_url = '/login'
+
     def get(self, request, car):
         description = Car.objects.get(id=car)
         form = ReservationForm()
@@ -103,14 +106,20 @@ class CarView(View):
         if form.is_valid():
             data1 = form.cleaned_data['start_date']
             data2 = form.cleaned_data['end_date']
-            reservation = Reservation.objects.create(user=request.user, car=description,
+            reservation = Reservation(user=request.user, car=description,
                                                      start_date=data1, end_date=data2)
-            # is_available = reservation.check_dates
-            
+            is_available = reservation.check_dates()
+
             if data1 > data2:
                 return render(request, 'car_view.html', {'description': description, 'form': form,
                                                          'message': 'Data zakończenia wynajmu jest wcześniejsza niż rozpoczęcia!'})
-            return redirect('/success')
+
+            if is_available:
+                reservation.save()
+                return redirect('/success')
+            else:
+                return render(request, 'car_view.html', {'description': description, 'form': form,
+                                                         'message': 'Auto jest niedostępne w tym terminie!'})
 
         else:
             return render(request, 'car_view.html', {'description': description, 'form': form})
@@ -121,13 +130,13 @@ def load_dates(request):
 
     start_date_id = request.GET.get('start_date')
     end_date_id = request.GET.get('end_date')
-    segment = request.GET.get('segment')
+    segment = int(request.GET.get('segment'))
     date_form = ReservationForm(request.GET)
     if date_form.is_valid():
         start_date = date_form.cleaned_data['start_date']
         end_date = date_form.cleaned_data['end_date']
         # dates = Reservation.objects.filter(start_date=start_date_id, end_date=end_date_id).order_by('name')
-        price = calculate_price(segment, end_date, start_date, 79)
+        price = calculate_price(segment, end_date, start_date, 100)
         return HttpResponse(str(price))
     return HttpResponse('')
 
