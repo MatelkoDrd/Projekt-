@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'user',
     'car',
+    'reservation',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +119,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -129,3 +130,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'user.User'
+DATE_INPUT_FORMATS = ('%Y-%m-%d',)

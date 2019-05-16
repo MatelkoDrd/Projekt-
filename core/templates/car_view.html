@@ -2,14 +2,41 @@
 
 {% block container %}
 
-    <h2>Wybrałeś {{ description.brand }} {{ description.model }}</h2>
+
+    <h2>{{ description.brand }} {{ description.model }}</h2>
+
+        <form action="{{ action }}" method="post">
+
+            {% csrf_token %}
+            <input type="hidden" name = "car_id" value="{{ description.id }}">
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary btn-lg">Rezerwuję</button>
+            <p id="price"></p>
+        </form>
+        {{ message }}
 
 
-<button>Rezerwuje</button>
-    {#        <a href='/car/{{ model_id }}'>#}
-{#            Szczegoly</a>#}
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
 
-
-
+    $('#id_start_date, #id_end_date').change(function(){
+        var url = '/summary';
+        var start_date = $('#id_start_date').val();
+        var end_date = $('#id_end_date').val();
+        $.ajax({
+            url: url,
+            data: {
+                'start_date': start_date,
+                'end_date': end_date
+            }
+        }).done(function(data) {
+            console.log(12);
+            console.log(data);
+            $('#price').text(data);
+        })
+    });
+    </script>
 
 {% endblock %}

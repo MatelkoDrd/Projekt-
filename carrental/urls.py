@@ -17,7 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
-from core.views import BaseView, LoginView, LogoutView, AddUserView, SegmentView, CarView
+from core.views import BaseView, LoginView, LogoutView, \
+    AddUserView, SegmentView, CarView, SuccessView, load_dates
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +28,8 @@ urlpatterns = [
     url('segment/(?P<segment>[1-5])/', SegmentView.as_view()),
     url('car/(?P<car>(\d)+)/', CarView.as_view()),
     path('', BaseView.as_view()),
+    url('success', SuccessView.as_view()),
+    url('summary', load_dates)
     # url('(?P<car>[1-99])/'
+    # url('reservation/', ReservationView.as_view()),
 ]

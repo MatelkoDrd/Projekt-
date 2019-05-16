@@ -1,5 +1,6 @@
 from django import forms
 
+from reservation.models import Reservation
 from user.models import User
 
 
@@ -30,3 +31,11 @@ class AddUserForm(forms.ModelForm):
             msg = "Hasła powinny być jednakowe"
             self.add_error('password2', msg)
             self.add_error('password', msg)
+
+
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['start_date', 'end_date']
+
+
