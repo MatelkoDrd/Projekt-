@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.my_context_processor.my_cp',
             ],
         },
     },
@@ -129,5 +130,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+
 AUTH_USER_MODEL = 'user.User'
+
 DATE_INPUT_FORMATS = ('%Y-%m-%d',)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'djangoprojectmd@gmail.com'
+EMAIL_HOST_PASSWORD = 'Xp22eVM9jv'

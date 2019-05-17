@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import TextInput, DateInput
 
 from reservation.models import Reservation
 from user.models import User
@@ -14,10 +15,27 @@ class LogoutForm(forms.Form):
 
 
 class AddUserForm(forms.ModelForm):
+    # first_name = forms.CharField(initial=)
+    password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
+
+
+
+    # class Meta:
+    #     model = Author
+    #     widgets = {
+    #         'name': TextInput(attrs={'placeholder': 'name'}),
+    #     }
+
 
     class Meta:
         model = User
+        widgets = {'first_name': TextInput(attrs={'placeholder': 'Janusz'}),
+                   'last_name': TextInput(attrs={'placeholder': 'Kowalski'}),
+                   'date_of_birth': DateInput(attrs={'placeholder': 'RRRR-MM-DD'}),
+                   'email': TextInput(attrs={'placeholder': 'python@developer.pl'}),
+                   'phone_number': TextInput(attrs={'placeholder': '999888777'})
+                }
         fields = ['first_name', 'last_name', 'password', 'password2',
                   'date_of_birth', 'email', 'phone_number']
 

@@ -51,7 +51,7 @@ class User(AbstractUser):
 
         username = None
         email = models.EmailField(('user email'), unique=True, null=False)
-        phone_number = models.CharField(verbose_name=('phone_number'), max_length=17)
+        phone_number = models.CharField(verbose_name=('Numer telefonu'), max_length=17)
         date_of_birth = models.DateField()
         USERNAME_FIELD = 'email'
         REQUIRED_FIELDS = []

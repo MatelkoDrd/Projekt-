@@ -1,48 +1,26 @@
 {%  extends 'base.html' %}
 
+
 {% block container %}
     <p></p>
 <center><h2>Wybierz segment, który Cię interesuje</h2></center>
 
     <hr>
 
-    {% for segment_id, segment_name in segments %}
-    <center>
-        <table class="table text-center">
-{#    <table class="table table-hover">#}
-{#        <table align="center">#}
-        <tbody>
-        <tr>
-            <a href='/segment/{{ segment_id}}'>
-                {{ segment_name }}</a>
-{#        {{ segment_name }}#}
-        </tr>
-        </tbody>
+        {% for segment_id, segment_name in segments %}
+        <center>
+            <table class="table text-center">
 
+                <tbody>
+                    <tr>
+                        <a href='/segment/{{ segment_id}}'>{{ segment_name }}</a>
 
+                    </tr>
+                </tbody>
 
-{#    <table class="table">#}
-{#  <thead>#}
-{#    <tr>#}
-{#      <th scope="col">1</th>#}
-{#      <th scope="col">2</th>#}
-{#      <th scope="col">3</th>#}
-{#      <th scope="col">4</th>#}
-{#      <th scope="col">5</th>#}
-{#    </tr>#}
-{#  </thead>#}
-{#  <tbody>#}
-{#    <tr>#}
-{#      <th scope="row">3</th>#}
-{#      <td>Larry</td>#}
-{#      <td>the Bird</td>#}
-{#      <td>@twitter</td>#}
-{#    </tr>#}
-{#  </tbody>#}
-{#</table>#}
-    </table>
-    </center>
-{%  endfor %}
+            </table>
+        </center>
+    {%  endfor %}
 
 {% endblock %}
 

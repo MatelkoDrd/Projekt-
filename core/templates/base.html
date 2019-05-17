@@ -1,56 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pl-PL">
 <head>
+
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% block extrahead %}
+    {% endblock %}
     <title>Wypożyczalnia</title>
 </head>
 <body>
 
 <div class="container">
+    <div align="right">
 
+        {% if zalogowany %}
+            <p>Witaj {{ user.first_name }} ! <a href="/logout">Wyloguj</a></p>
+        {% else %}
+            <p>Nie zalogowano. <a href="/login">Zaloguj</a></p>
+        {%  endif %}
+
+    </div>
     <h1>Wypożyczalnia samochodów </h1>
 
         {% block container %}
         {% endblock %}
 </div>
 
+
 </body>
 </html>
 
-{##}
-{#{% load static %}#}
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{##}
-{#<head>#}
-{#    <script src="{% static "core/jquery-3.4.1.min.js" %}"/>#}
-{#    <meta charset="UTF-8">#}
-{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
-{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>#}
-{##}
-{#    <script>$(document).ready(function () {#}
-{#        alert('test')#}
-{#    })</script>#}
-{#    <title>{% block title %}{% endblock %}</title>#}
-{#</head>#}
-{##}
-{#<body>#}
-{#<div class="container">#}
-{#    <div class="container">#}
-{##}
-{#        <img src="{% static "core/cola04.jpg" %}" width="80px" height="40px" alt="My image">#}
-{##}
-{#        {% block container %}#}
-{##}
-{#        {% endblock %}#}
-{##}
-{#    </div>#}
-{##}
-{##}
-{##}
-{#</div>#}
-{##}
-{#</body>#}
-{#</html>#}

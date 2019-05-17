@@ -13,12 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import re
+
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 
+from django.conf import settings
 from core.views import BaseView, LoginView, LogoutView, \
-    AddUserView, SegmentView, CarView, SuccessView, load_dates
+    AddUserView, SegmentView, CarView, SuccessView, load_dates, email
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,7 +34,9 @@ urlpatterns = [
     url('car/(?P<car>(\d)+)/', CarView.as_view()),
     path('', BaseView.as_view()),
     url('success', SuccessView.as_view()),
-    url('summary', load_dates)
+    url('summary', load_dates),
+    url('email', email),
     # url('(?P<car>[1-99])/'
     # url('reservation/', ReservationView.as_view()),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
++ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

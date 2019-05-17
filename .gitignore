@@ -1,5 +1,5 @@
 .idea
-*.iml
 *.pyc
-venv
+*.iml
 media
+venv

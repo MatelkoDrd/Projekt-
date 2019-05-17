@@ -1,5 +1,5 @@
 from datetime import date, timedelta
-
+from smsapi.client import SmsApiPlClient
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
@@ -15,6 +15,9 @@ from core.forms import LoginForm, LogoutForm, AddUserForm, ReservationForm
 from core.functions import calculate_price
 from reservation.models import Reservation
 from user.models import User
+
+from  django.core.mail import send_mail
+from django.conf import settings
 
 
 class BaseView(View):
@@ -32,7 +35,6 @@ class SegmentView(View):
     def get(self, request, segment):
         cars = Car.objects.filter(segment=segment)
         return render(request, 'segments.html', {'cars': cars})
-
 
 
 
@@ -66,11 +68,11 @@ class LoginView(View):
 
 class LogoutView(View):
     def get(self, request):
-        logout(request)
         form = LogoutForm
         return render(request, 'logout.html', {'form': form, 'message': 'Zostałeś wylogowany'})
 
     def post(self,request):
+        logout(request)
         return redirect('/login')
 
 
@@ -84,7 +86,7 @@ class AddUserView(View):
         if form.is_valid():
             del form.cleaned_data['password2']
             new_user = User.objects.create_user(**form.cleaned_data)
-            return HttpResponse("Witaj: {}".format(new_user.first_name))
+            return redirect ('/')
         else:
             return render(request, 'add_user.html', {'form': form})
 
@@ -116,7 +118,7 @@ class CarView(LoginRequiredMixin, View):
 
             if is_available:
                 reservation.save()
-                return redirect('/success')
+                return redirect('/email')
             else:
                 return render(request, 'car_view.html', {'description': description, 'form': form,
                                                          'message': 'Auto jest niedostępne w tym terminie!'})
@@ -145,4 +147,26 @@ class SuccessView(View):
     def get(self, request):
         return render(request, 'success.html', {})
 
+
+def email(request):
+
+    client = SmsApiPlClient(access_token='sTwdrplwMHB72lX8HJaGROVJubT5jyK2bCOalalK')
+
+    phone_number = (request.user.phone_number)
+
+    r = client.sms.send(to='798719764',
+                        message='Samochod gotowy do odbioru, ale najpierw zapraszamy na ul. Prostą 51, 7 piętro, kuchnia, lodowka po lewej :)')
+
+    print(r.id, r.points, r.status, r.error)
+
+    print(request.user.email)
+    email_address = (request.user.email,)
+    subject = "Dziękujemy za wypożyczenie naszego samochodu 1!11!!!"
+    message = 'O dalszych instrukcjach będziemy informować Cię przez telefon'
+    email_from = settings.EMAIL_HOST_USER
+
+
+    send_mail(subject, message, email_from, email_address)
+
+    return redirect('/success')
 

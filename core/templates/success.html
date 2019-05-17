@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+{#    <link rel="stylesheet" href="{% static "css/style.css" %}">#}
+{#    <script src="{% static "js/success.js"%}"></script>#}
+{% endblock %}
 
 {% block container %}
 
-    <h2>Udało Ci się wypożyczyć samochód. Gratulujemy :) </h2>
+    <h2>Udało Ci się wypożyczyć samochód. Szerokiej drogi :) </h2>
+    <h4>Za chwilę otrzymasz od nas maila i SMS-a z dalszymi instrukcjami.</h4>
+
+    <p></p>
+
+    <img src="{% static "french-bulldog-on-grass_925x.jpg" %}">
 
 
 {% endblock %}
