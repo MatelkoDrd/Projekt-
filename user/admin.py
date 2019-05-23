@@ -7,7 +7,6 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'password']
     list_filter = ['first_name', 'last_name', 'password']
     search_fields = ['email']
-    # date_hierarchy = ['date_of_birth']
 
 
 admin.site.register(User, UserAdmin)

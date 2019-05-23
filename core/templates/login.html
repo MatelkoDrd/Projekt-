@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<h2>Logowanie:</h2>
 
-    {% include 'form.html' %}
+    <h2>Logowanie:</h2>
 
-    {{ message }}
+
+        <p>Nie masz jeszcze u nas konta?<a href="http://127.0.0.1:8000/adduser/">Zarejestruj się!</a></p>
+
+            {% include 'form.html' %}
+
+                {{ message }}
 
 {% endblock %}

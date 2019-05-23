@@ -132,7 +132,6 @@ def load_dates(request):
     if date_form.is_valid():
         start_date = date_form.cleaned_data['start_date']
         end_date = date_form.cleaned_data['end_date']
-        # dates = Reservation.objects.filter(start_date=start_date_id, end_date=end_date_id).order_by('name')
         price = calculate_price(segment, end_date, start_date, 100)
         return HttpResponse(str(price))
     return HttpResponse('')
@@ -147,15 +146,11 @@ def email(request):
 
     client = SmsApiPlClient(access_token='sTwdrplwMHB72lX8HJaGROVJubT5jyK2bCOalalK')
 
-    # print(request.user.is_authenticated)
     phone_number = request.user.phone_number
     print('phone number', phone_number)
     r = client.sms.send(to=phone_number,
                         message='Sprawdź maila :)')
 
-    # print(r.id, r.points, r.status, r.error)
-
-    print(request.user.email)
     email_address = (request.user.email,)
     subject = "Dziękujemy za wypożyczenie naszego samochodu 1!11!!!"
     message = 'Zapraszamy na Pizzowy Piatek z Pythonem do CodersLab :)'
