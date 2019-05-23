@@ -16,9 +16,11 @@ class LogoutForm(forms.Form):
 
 class AddUserForm(forms.ModelForm):
     # first_name = forms.CharField(initial=)
-    password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(widget=forms.PasswordInput)
+    # password = forms.CharField(verbose_name=('Haslo'), widget=forms.PasswordInput)
+    # password2 = forms.CharField(verbose_name=('Potwierdz haslo'),widget=forms.PasswordInput)
 
+    password = forms.CharField(label='Haslo',widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Potwierdz', widget=forms.PasswordInput)
 
 
     # class Meta:

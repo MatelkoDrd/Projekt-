@@ -20,23 +20,18 @@ from  django.core.mail import send_mail
 from django.conf import settings
 
 
+
+
+
 class BaseView(View):
     def get(self, request):
         return TemplateResponse(request, 'segments_base.html', {'segments': SEGMENT_CHOICES})
-
-# students = Student.objects.filter(school_class=school_class)
-#         return render(request, "class.html", {"students": students,
-#                                               "class_name": SCHOOL_CLASS[int(school_class)-1][1]})
-#
-#
 
 
 class SegmentView(View):
     def get(self, request, segment):
         cars = Car.objects.filter(segment=segment)
         return render(request, 'segments.html', {'cars': cars})
-
-
 
 
 class LoginView(View):
@@ -152,17 +147,18 @@ def email(request):
 
     client = SmsApiPlClient(access_token='sTwdrplwMHB72lX8HJaGROVJubT5jyK2bCOalalK')
 
-    phone_number = (request.user.phone_number)
+    # print(request.user.is_authenticated)
+    phone_number = request.user.phone_number
+    print('phone number', phone_number)
+    r = client.sms.send(to=phone_number,
+                        message='Sprawdź maila :)')
 
-    r = client.sms.send(to='798719764',
-                        message='Samochod gotowy do odbioru, ale najpierw zapraszamy na ul. Prostą 51, 7 piętro, kuchnia, lodowka po lewej :)')
-
-    print(r.id, r.points, r.status, r.error)
+    # print(r.id, r.points, r.status, r.error)
 
     print(request.user.email)
     email_address = (request.user.email,)
     subject = "Dziękujemy za wypożyczenie naszego samochodu 1!11!!!"
-    message = 'O dalszych instrukcjach będziemy informować Cię przez telefon'
+    message = 'Zapraszamy na Pizzowy Piatek z Pythonem do CodersLab :)'
     email_from = settings.EMAIL_HOST_USER
 
 

@@ -48,11 +48,10 @@ class User(AbstractUser):
         """
         User model.
         """
-
         username = None
-        email = models.EmailField(('user email'), unique=True, null=False)
-        phone_number = models.CharField(verbose_name=('Numer telefonu'), max_length=17)
-        date_of_birth = models.DateField()
+        email = models.EmailField(verbose_name=('Email'), unique=True, null=False)
+        phone_number = models.CharField(verbose_name=('Telefon'), max_length=17)
+        date_of_birth = models.DateField(verbose_name=('Data urodzenia'))
         USERNAME_FIELD = 'email'
         REQUIRED_FIELDS = []
         objects = UserManager()
