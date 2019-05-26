@@ -21,7 +21,7 @@ from django.urls import path
 
 from django.conf import settings
 from core.views import BaseView, LoginView, LogoutView, \
-    AddUserView, SegmentView, CarView, SuccessView, load_dates, email
+    AddUserView, SegmentView, CarView, SuccessView, load_dates, email, WellDoneView
 from django.conf.urls.static import static
 
 
@@ -36,6 +36,7 @@ urlpatterns = [
     url('success', SuccessView.as_view()),
     url('summary', load_dates),
     url('email', email),
+    url('well_done', WellDoneView.as_view())
     # url('(?P<car>[1-99])/'
     # url('reservation/', ReservationView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \

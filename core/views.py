@@ -81,9 +81,14 @@ class AddUserView(View):
         if form.is_valid():
             del form.cleaned_data['password2']
             new_user = User.objects.create_user(**form.cleaned_data)
-            return redirect ('/')
+            return redirect('/well_done')
         else:
             return render(request, 'add_user.html', {'form': form})
+
+
+class WellDoneView(View):
+    def get(self, request):
+        return render(request, 'well_done.html', {})
 
 
 class CarView(LoginRequiredMixin, View):
