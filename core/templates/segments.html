@@ -1,20 +1,21 @@
 {%  extends 'base.html' %}
 
 {% block container %}
+
 <h2>Lista samochodów z danego segmentu </h2>
 
-<ol>
-    {% for car_model in cars %}
+    <ol>
+        {% for car_model in cars %}
 
-        <li>
-            <a href='/car/{{ car_model.id }}'>
+            <li>
 
-        {{ car_model }}
+                <a href='/car/{{ car_model.id }}'>
+                    {{ car_model }}
+                </a>
 
-            </a>
-        </li>
-    {%  endfor %}
-</ol>
+            </li>
+        {%  endfor %}
+    </ol>
 
 {% endblock %}
 

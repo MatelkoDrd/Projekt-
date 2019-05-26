@@ -1,6 +1,8 @@
-from django import forms
-from django.forms import TextInput, DateInput
+import re
 
+from django import forms
+from django.core.exceptions import ValidationError
+from django.forms import TextInput, DateInput
 from reservation.models import Reservation
 from user.models import User
 
@@ -14,21 +16,17 @@ class LogoutForm(forms.Form):
     pass
 
 
+def password_validator (value):
+
+    valid_regex = "[A-z0-9]{8,}"
+    if not re.match(valid_regex, value):
+        raise ValidationError ("Hasło musi mieć minimum 8 znaków. W tym jedną duża literę i cyfrę")
+
+
 class AddUserForm(forms.ModelForm):
-    # first_name = forms.CharField(initial=)
-    # password = forms.CharField(verbose_name=('Haslo'), widget=forms.PasswordInput)
-    # password2 = forms.CharField(verbose_name=('Potwierdz haslo'),widget=forms.PasswordInput)
 
-    password = forms.CharField(label='Haslo',widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Potwierdz', widget=forms.PasswordInput)
-
-
-    # class Meta:
-    #     model = Author
-    #     widgets = {
-    #         'name': TextInput(attrs={'placeholder': 'name'}),
-    #     }
-
+    password = forms.CharField(label='Hasło',widget=forms.PasswordInput, validators=[password_validator])
+    password2 = forms.CharField(label='Potwierdź', widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -44,13 +42,13 @@ class AddUserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        password2 = cleaned_data.get("password2")
         password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
 
         if password != password2:
             msg = "Hasła powinny być jednakowe"
-            self.add_error('password2', msg)
             self.add_error('password', msg)
+            self.add_error('password2', msg)
 
 
 class ReservationForm(forms.ModelForm):
