@@ -16,11 +16,8 @@ from core.functions import calculate_price
 from reservation.models import Reservation
 from user.models import User
 
-from  django.core.mail import send_mail
+from django.core.mail import send_mail
 from django.conf import settings
-
-
-
 
 
 class BaseView(View):
@@ -149,7 +146,7 @@ class SuccessView(View):
 
 def email(request):
 
-    client = SmsApiPlClient(access_token='sTwdrplwMHB72lX8HJaGROVJubT5jyK2bCOalalK')
+    client = SmsApiPlClient(access_token='Miejsce na token')
 
     phone_number = request.user.phone_number
     print('phone number', phone_number)
@@ -158,9 +155,8 @@ def email(request):
 
     email_address = (request.user.email,)
     subject = "Dziękujemy za wypożyczenie naszego samochodu 1!11!!!"
-    message = 'Zapraszamy na Pizzowy Piatek z Pythonem do CodersLab :)'
+    message = 'Dziękujemy za wypożyczenie naszego samochodu 1!11!!!'
     email_from = settings.EMAIL_HOST_USER
-
 
     send_mail(subject, message, email_from, email_address)
 
