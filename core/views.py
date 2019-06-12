@@ -1,21 +1,15 @@
-from datetime import date, timedelta
 from smsapi.client import SmsApiPlClient
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
-from django.http import HttpResponse, request
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from django.template.response import TemplateResponse
 from django.views import View
-
 from car.models import SEGMENT_CHOICES, Car
 from core.forms import LoginForm, LogoutForm, AddUserForm, ReservationForm
 from core.functions import calculate_price
 from reservation.models import Reservation
 from user.models import User
-
 from django.core.mail import send_mail
 from django.conf import settings
 

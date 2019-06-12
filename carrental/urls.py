@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import re
 
 from django.conf.urls import url
 from django.contrib import admin
@@ -37,7 +36,7 @@ urlpatterns = [
     url('summary', load_dates),
     url('email', email),
     url('well_done', WellDoneView.as_view())
-    # url('(?P<car>[1-99])/'
-    # url('reservation/', ReservationView.as_view()),
+
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
 + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
